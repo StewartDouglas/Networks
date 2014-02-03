@@ -31,6 +31,7 @@ public class RMIClient {
 		int numMessages = Integer.parseInt(args[1]);
  
 		// TO-DO: Initialise Security Manager
+		
 
 		// TO-DO: Bind to RMIServer
 
