@@ -31,13 +31,14 @@ public class RMIClient {
 		int numMessages = Integer.parseInt(args[1]);
  
 		// TO-DO: Initialise Security Manager
-		
+		System.setSecurityManager(new RMISecurityManager());
 
 		// TO-DO: Bind to RMIServer
 
 		// TO-DO: Attempt to send messages the specified number of times
 		// for int in range numMessages
 		// 	   create instance of MessageInfo
+		
 		//     send MessageInfo to the server
 
 	}
