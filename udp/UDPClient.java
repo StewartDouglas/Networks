@@ -46,34 +46,46 @@ public class UDPClient {
 		// Create instance of UDP client
 		UDPClient client = new UDPClient();
 		// run UDPClient.testloop
-		// put in try statement
 		client.testLoop(serverAddr,recvPort,countTo);
 	}
 
 	public UDPClient() {
 		// TO-DO: Initialise the UDP socket for sending data
-		DatagramSocket sendSoc = new DatagramSocket();
+	        try{
+		    sendSoc = new DatagramSocket();
+		}catch(SocketException e){
+		    System.out.println("Socket exception: " + e.getMessage());
+		}
 	}
 
 	private void testLoop(InetAddress serverAddr, int recvPort, int countTo) {
 		int				tries = 0;
 		// TO-DO: Send the messages to the server
-		for(tries = 0;tries<countTo;tries++)
-			send("Hello Server",serverAddr,recvPort);
-		
+		for(;tries<countTo;tries++){
+		    MessageInfo msg = new MessageInfo(countTo, tries);
+         	    send(msg.toString(),serverAddr,recvPort);
+		}
 	}
 
 	private void send(String payload, InetAddress destAddr, int destPort) {
-		int				    payloadSize = 512;
-		byte[]				pktData = new byte[512];
+		int			payloadSize;
+		byte[]			pktData;
 		DatagramPacket		pkt;
+
 		// TO-DO: build the datagram packet and send it to the server
+		pktData = payload.getBytes();
+		payloadSize = pktData.length;
 		pkt = new DatagramPacket(pktData,payloadSize,destAddr,destPort);
-		sendSoc.send(pkt);
-		pkt = new DatagramPacket(pktData,payloadSize);
-		sendSoc.receive(pkt);
-		String received = new String(pkt.getData(), 0, pkt.getLength());
-		System.out.println(received);
-		sendSoc.close();
+		try{
+		    sendSoc.send(pkt);
+		} catch (IOException e){
+		    System.out.println("IO: " + e.getMessage());
+		} 
+		// Note: we just send messages, we don't listen for a reply
+		//pkt = new DatagramPacket(pktData,payloadSize);
+		//sendSoc.receive(pkt);
+		//String received = new String(pkt.getData(), 0, pkt.getLength());
+		//System.out.println(received);
+		//sendSoc.close();
 	}
 }
