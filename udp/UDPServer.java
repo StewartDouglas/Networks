@@ -52,7 +52,7 @@ public class UDPServer {
 
 	public UDPServer(int rp) {
 		// TO-DO: Initialise UDP socket for receiving data
-
+		DatagramSocket serverSocket = new DatagramSocket(rp);
 		// Done Initialisation
 		System.out.println("UDPServer ready");
 	}
@@ -68,6 +68,7 @@ public class UDPServer {
 		recvPort = Integer.parseInt(args[0]);
 
 		// TO-DO: Construct Server object and start it by calling run().
+		UPDServer server = new UPDServer(recvPort)
 	}
 
 }
