@@ -30,17 +30,26 @@ public class RMIClient {
 		String urlServer = new String("rmi://" + args[0] + "/RMIServer");
 		int numMessages = Integer.parseInt(args[1]);
  
-		// TO-DO: Initialise Security Manager
-		
-		//System.setSecurityManager(new RMISecurityManager());
+ 		try{
+			// TO-DO: Initialise Security Manager
+			if (System.getSecurityManager() == null){
+				System.setSecurityManager(new RMISecurityManager());
+			}
 
-		// TO-DO: Bind to RMIServer
+			// TO-DO: Bind to RMIServer
+			try{
+				iRMIServer = (RMIServerI) Naming.lookup(urlServer);
+			} catch (MalformedURLException e){	
+				e.printStackTrace();
+			} catch (NotBoundException e){
+				e.printStackTrace();
+			}
 
-		// TO-DO: Attempt to send messages the specified number of times
-		// for int in range numMessages
-		// 	   create instance of MessageInfo
-		
-		//     send MessageInfo to the server
-
+			// TO-DO: Attempt to send messages the specified number of times
+			for(int n = 0; n < numMessages; n++)
+				iRMIServer.receiveMessage(new MessageInfo(numMessages,n));
+		} catch (RemoteException e){
+			System.out.println("Remote Exception: " + e);
+		}
 	}
 }

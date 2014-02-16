@@ -49,8 +49,9 @@ public class UDPServer {
 			    processMessage(new String(pac.getData()));
 			} catch (SocketTimeoutException e){
 			    // Print summary information
-			    System.out.println("Number of messages received = " + totalMessages);
-			    totalMessages = -1;
+			    //System.out.println("Number of messages received = " + totalMessages);
+			    //totalMessages = -1;
+				printSummary();
 			}
 		    
 		    }
@@ -89,8 +90,9 @@ public class UDPServer {
 		//        any missing messages
 		if (totalMessages == msg.totalMessages){
 		    // Print summary information
-		    System.out.println("Number of messages received = " + totalMessages);
-		    totalMessages = -1;		
+		    //System.out.println("Number of messages received = " + totalMessages);
+		    //totalMessages = -1;		
+			printSummary();
 		}
 	}
 
@@ -126,4 +128,26 @@ public class UDPServer {
 		server.run();
 	}
 
+	public void printSummary(){
+
+			if(receivedMessage == null || totalMessage <= 0)
+				return;
+			
+			String missingMessages = "";
+			for(int i = 0; i <receivedMessages.length; i++)
+				if(receivedMessages[i] == 0)
+					missingMessages += i + ", ";
+				
+			System.out.println("******* SUMMARY *******");
+			Systen.out.println("Number of messages received: " + totalMessages);
+			if(totalMessages == receivedMessages.length)
+				System.out.println("No missing messages!");
+			else
+				System.out.println("Lost Messages: " + missingMessages);
+			receivedMessages = null;
+			totalMessages = -1;
+
+
+
+	}
 }
